@@ -6,7 +6,7 @@ let cleanCSS = require("gulp-clean-css");
 
 const chemins = {
   sources: "./src/",
-  demo: "./docs/demo/"
+  demo: "./docs/"
 };
 
 
