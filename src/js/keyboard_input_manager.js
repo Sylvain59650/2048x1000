@@ -68,7 +68,7 @@ KeyboardInputManager.prototype.listen = function() {
     }
   });
 
-
+  this.bindButtonPress(".retry-button", this.restart);
   // Respond to swipe events
   var touchStartClientX, touchStartClientY;
   var gameContainer = document.getElementsByClassName("game-container")[0];

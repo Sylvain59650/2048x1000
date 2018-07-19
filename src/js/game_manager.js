@@ -1,3 +1,4 @@
+/* global Grid Tile */
 function GameManager(size, InputManager, Actuator, StorageManager) {
   this.size = size; // Size of the grid
   this.inputManager = new InputManager;
@@ -77,6 +78,7 @@ GameManager.prototype.addStartTiles = function() {
 
 GameManager.prototype.addRandomTile = function() {
   var free = this.grid.availableCells().length;
+  var value = 2;
   if (!!free) {
     var cell = this.grid.randomAvailableCell();
     if (free === 1) {
@@ -84,7 +86,7 @@ GameManager.prototype.addRandomTile = function() {
       var y = cell.y;
       var dir = Math.random();
       dir = (dir < 0.5) ? 1 : -1;
-      if (dir == 1) {
+      if (dir === 1) {
         x = cell.x + 1;
         if (cell.x > 0) {
           x = cell.x - 1;
@@ -95,12 +97,11 @@ GameManager.prototype.addRandomTile = function() {
           y = cell.y - 1;
         }
       }
-      var value = this.grid.cells[x][y].value;
+      value = this.grid.cells[x][y].value;
     } else {
       var r = Math.random();
-      var value = 2;
-      if (r < 0.4) value = 8;
-      else if (r < 0.8) value = 4;
+      value = 2;
+      if (r < 0.4) { value = 8; } else if (r < 0.8) { value = 4; }
       if (free < 4) {
         value *= 4;
       }
@@ -167,9 +168,10 @@ GameManager.prototype.move = function(direction) {
   // 0: up, 1: right, 2: down, 3: left
   var self = this;
 
-  if (this.isGameTerminated()) return; // Don't do anything if the game's over
+  if (this.isGameTerminated()) { return; } // Don't do anything if the game's over
 
-  var cell, tile;
+  var cell = null;
+  var tile = null;
 
   var vector = this.getVector(direction);
   var traversals = this.buildTraversals(vector);
@@ -249,14 +251,14 @@ GameManager.prototype.buildTraversals = function(vector) {
   }
 
   // Always traverse from the farthest cell in the chosen direction
-  if (vector.x === 1) traversals.x = traversals.x.reverse();
-  if (vector.y === 1) traversals.y = traversals.y.reverse();
+  if (vector.x === 1) { traversals.x = traversals.x.reverse(); }
+  if (vector.y === 1) { traversals.y = traversals.y.reverse(); }
 
   return traversals;
 };
 
 GameManager.prototype.findFarthestPosition = function(cell, vector) {
-  var previous;
+  var previous = null;
 
   // Progress towards the vector direction until an obstacle is found
   do {
@@ -279,7 +281,7 @@ GameManager.prototype.movesAvailable = function() {
 GameManager.prototype.tileMatchesAvailable = function() {
   var self = this;
 
-  var tile;
+  var tile = null;
 
   for (var x = 0; x < this.size; x++) {
     for (var y = 0; y < this.size; y++) {
